@@ -21,5 +21,11 @@ end
 
 
 get '/parrots' do
-	JSON.generate( Dir.entries("/tmp/checkout/parrots/parrots") )
+	parrots = Dir.entries("/tmp/checkout/parrots/parrots")
+
+	parrots = parrots.delete_if { |a| a == "." }
+	parrots = parrots.delete_if { |a| a == ".." }
+	parrots = parrots.sort
+
+	JSON.generate( parrots )
 end
