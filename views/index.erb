@@ -1,1 +1,87 @@
-Hello World!
+<script>
+$( document ).ready(
+	populate_parrots
+);
+
+function populate_parrots() {
+	load_slack_info();
+	load_parrots();
+	load_emoji();
+	compare_parrots();
+}
+
+
+function load_slack_info() {
+	$.getJSON( "/slack_team_info", function( data ) {
+		$("#slack_team").html( "<a href='http://" + data.team.domain + ".slack.com/'>" + data.team.name + " Slack</a>" );
+		$("#slack_team_icon").html( "<img src='" + data.team.icon.image_original + "' />" );
+	});
+}
+
+function load_parrots() {
+	$.getJSON( "/parrots", function( data ) {
+		$.each( data.emoji, function( name, url ) {
+			$("#parrot-table > tbody").append(
+				"<tr id='" + name + "'>" +
+					"<td class='name'>" + name + "</td>" +
+					"<td class='parrot'><img src='" + url + "' /></td>" +
+					"<td class='emoji'></td>" +
+					"<td class='status'><span class='glyphicon glyphicon-question-sign' aria-hidden='true'></span> NOT IMPLEMENTED</td>" +
+				"</tr>"
+			);
+		});
+	});
+}
+
+function load_emoji() {
+	$.getJSON( "/emoji", function( data ) {
+		$.each( data.emoji, function( name, url ) {
+			$("#" + name + "> .emoji").append(
+				"<img src='" + url + "' />"
+			)
+		});
+	});
+}
+
+function compare_parrots() {
+}
+
+
+</script>
+<style>
+	#slack_team_info {
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+	#slack_team_icon img {
+		max-height: 200px;
+	}
+
+	#sirocco {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+	}
+</style>
+<div id="slack_team_info">
+	<h1>Party Parrot Emoji <small id="slack_team"></small></h1>
+	<div id="slack_team_icon"></div>
+</div>
+<div id="sirocco"><img src="http://cultofthepartyparrot.com/sirocco.gif" /></div>
+<div class="row">
+	<div class="col-md-4 col-md-offset-8">
+		<table class="table table-striped" id="parrot-table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Official Parrots</th>
+					<th>Slack Emoji</th>
+					<th>Up-to-date?</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
