@@ -6,6 +6,8 @@ require 'dotenv'
 require 'rest-client'
 require 'json'
 require 'digest'
+require 'digest/md5'
+require 'open-uri'
 require 'slack'
 require 'git'
 

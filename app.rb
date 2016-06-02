@@ -47,6 +47,34 @@ get '/parrots' do
 end
 
 get '/compare' do
-	result = [ :status => "UNKNOWN" ]
+	# TODO: return an error if there are not exactly two files specified
+
+	# TODO: return an error if the two files are not on whitelisted URLs (i.e. emoji.slack-edge.com or cultofthepartyparrot.com
+
+#	file1 = params['file1']
+#	file2 = params['file2']
+	file1 = "http://cultofthepartyparrot.com/parrots/aussieparrot.gif"
+	file2 = "https://emoji.slack-edge.com/T02TJGFUQ/aussieparrot/ef9ef64d932b6ef0.gif"
+
+	hash1 = Digest::MD5.hexdigest(open(file1).read)
+	hash2 = Digest::MD5.hexdigest(open(file2).read)
+
+	if ( hash1 == hash2 )
+		status = "SAME"
+	else
+		status = "DIFFERENT"
+	end
+
+	result = {
+		:status => status,
+		:file1  => {
+			:url  => file1,
+			:hash => hash
+		},
+		:file2  => {
+			:url  => file2,
+			:hash => hash
+		},
+	}
 	JSON.generate( result )
 end
