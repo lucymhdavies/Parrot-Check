@@ -51,10 +51,8 @@ get '/compare' do
 
 	# TODO: return an error if the two files are not on whitelisted URLs (i.e. emoji.slack-edge.com or cultofthepartyparrot.com
 
-#	file1 = params['file1']
-#	file2 = params['file2']
-	file1 = "http://cultofthepartyparrot.com/parrots/aussieparrot.gif"
-	file2 = "https://emoji.slack-edge.com/T02TJGFUQ/aussieparrot/ef9ef64d932b6ef0.gif"
+	file1 = params['file1']
+	file2 = params['file2']
 
 	hash1 = Digest::MD5.hexdigest(open(file1).read)
 	hash2 = Digest::MD5.hexdigest(open(file2).read)
