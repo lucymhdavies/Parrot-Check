@@ -26,7 +26,7 @@ function load_parrots() {
 					"<td class='parrot-name'>" + name + "</td>" +
 					"<td class='parrot-image'><img src='" + url + "' /></td>" +
 					"<td class='emoji-image'></td>" +
-					"<td class='status'><span class='glyphicon glyphicon-question-sign' aria-hidden='true'></span> NOT IMPLEMENTED</td>" +
+					"<td class='status'><span class='status-unknown'><img src='/img/ajax-loader.gif' /> Checking...</span></td>" +
 				"</tr>"
 			);
 			console.log( "load_parrots - Added: " + name );
@@ -52,6 +52,13 @@ function load_emoji() {
 				emoji_url  = $("#" + name + "> .emoji-image img").attr('src');
 				console.log( "load_emoji - /emoji  - Comparing: "
 					+ name + " " + parrot_url + " to " + emoji_url );
+
+
+				// at this point we know that there IS a slack parrot, so update status
+				$("#" + name + "> .status").html(
+					"<span class='status-checking'><img src='/img/ajax-loader.gif' /> Checking...</span>"
+				);
+
 
 				$.getJSON(
 					"/compare",
@@ -80,6 +87,9 @@ function load_emoji() {
 			}
 		});
 		console.log( "load_emoji - /emoji  - Loaded all emoji from Slack" );
+
+		// All parrots have been loaded, so replace all missing with text
+		$( ".status-unknown" ).html("<img src='http://cultofthepartyparrot.com/parrots/sadparrot.gif' /> MISSING");
 	});
 }
 
