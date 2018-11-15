@@ -35,7 +35,7 @@ get '/parrots' do
 	parrot_list = {}
 	parrot_files.each { |file|
 		filename = File.basename(file,File.extname(file))
-		parrot_list[filename] = "http://cultofthepartyparrot.com/parrots/" + file
+		parrot_list[filename] = "https://cultofthepartyparrot.com/parrots/" + file
 	}
 
 	result = {
